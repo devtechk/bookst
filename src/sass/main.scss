@@ -1,0 +1,13 @@
+@import '../../node_modules/bulma/bulma.sass';
+
+.main__container {
+  background-color: #fff;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.left-justify {
+  @media (min-width: 768px) {
+    justify-content: start;
+  }
+}

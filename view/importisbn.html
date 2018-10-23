@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../src/css/main.css">
+    <title>Import by Isbn</title>
+</head>
+<body>
+<div class="main__container">
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <div class="box">
+                <h2>Perfavore inserisci un titolo</h2>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="title">BOOKST</h1>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        Menu
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div class="select">
+                            <select id="selectPage">
+                                <option value="../index.html">Add Manually</option>
+                                <option value="/" selected>Import by ISBN</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input id="inputCode"class="input" type="text" placeholder="Cerca ISBN">
+                            </div>
+                            <div class="control">
+                                <a id="submit" class="button is-info">
+                                    Search
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="container">
+                    <div class="level-left">
+                        <div class="container">
+                            <div class="level-item ">
+                                <div class="field is-horizontal">
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <label class="label">Titolo</label>
+                                            <div class="control">
+                                                <input id="titoloId" class="input" type="text" placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Sottotitolo</label>
+                                            <div class="control">
+                                                <input id="sottotitoloId" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Autore</label>
+                                            <div class="control">
+                                                <input id="autoreId" class="input" type="text" placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Codice isbn</label>
+                                            <div class="control">
+                                                <input id="codiceIsbnId" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Collocazione</label>
+                                            <div class="control">
+                                                <input id="collocazione" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Editore</label>
+                                            <div class="control">
+                                                <input id="editoreId" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="container">
+                    <div class="level-left">
+                        <div class="container">
+                            <div class="level-item left-justify">
+                                <div class="field is-horizontal">
+                                    <div class="field-body">
+                                        <div class="field">
+                                            <label class="label">Collana</label>
+                                            <div class="control">
+                                                <input id="collanaId" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Anno</label>
+                                            <div class="control">
+                                                <input id="annoId" class="input" type="text" placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Fondo</label>
+                                            <div class="control">
+                                                <input id="fondoId" class="input" type="text" placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Materia</label>
+                                            <div class="control">
+                                                <input id="materiaId" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Argomento</label>
+                                            <div class="control">
+                                                <input id="argomentoId" class="input" type="text"
+                                                       placeholder="Text input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <a id="insertBook" class="button is-success">Insert book</a>
+                    </div>
+                    <div class="level-item">
+                        <a id="deleteAll" class="button is-danger">Delete library</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="section display__data">
+        <div class="container">
+            <h5 class="subtitle is-5" id="totalBooksId">Subtitle 5</h5>
+
+            <hr style="margin: 0 0 3rem;">
+                <div class="level" id="table">
+                    <div class="container">
+                    <div class="level-item">
+                        <table class="table">
+                        <thead>
+                        <tr>
+                            <th><abbr title="Titolo">Titolo</abbr></th>
+                            <th><abbr title="Sottotitolo">Sottotitolo</abbr></th>
+                            <th><abbr title="Autore">Autore</abbr></th>
+                            <th><abbr title="ISBN">ISBN</abbr></th>
+                            <th><abbr title="Editore">Editore</abbr></th>
+                            <th><abbr title="Collana">Collana</abbr></th>
+                            <th><abbr title="Anno">Anno</abbr></th>
+                            <th><abbr title="Fondo">Fondo</abbr></th>
+                            <th><abbr title="Materia">Materia</abbr></th>
+                            <th><abbr title="Argomento">Argomento</abbr></th>
+
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th><abbr title="Titolo">Titolo</abbr></th>
+                            <th><abbr title="Sottotitolo">Sottotitolo</abbr></th>
+                            <th><abbr title="Autore">Autore</abbr></th>
+                            <th><abbr title="ISBN">ISBN</abbr></th>
+                            <th><abbr title="Editore">Editore</abbr></th>
+                            <th><abbr title="Collana">Collana</abbr></th>
+                            <th><abbr title="Anno">Anno</abbr></th>
+                            <th><abbr title="Fondo">Fondo</abbr></th>
+                            <th><abbr title="Materia">Materia</abbr></th>
+                            <th><abbr title="Argomento">Argomento</abbr></th>
+
+                        </tr>
+                        </tfoot>
+                        <tbody id="demo">
+
+                        </tbody>
+                    </table>
+                    </div>
+                    </div>
+                </div>
+                <p style=" text-align: center">9788806232825</p>
+        </div>
+    </section>
+    <section class="add__books">
+    </section>
+</div>
+<script type="text/javascript" src="../dist/main.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+</body>
+</html>
