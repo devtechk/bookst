@@ -36,8 +36,8 @@
                     <div class="level-item">
                         <div class="select">
                             <select id="selectPage">
-                                <option value="/" selected>Add Manually</option>
-                                <option value="view/importisbn.html">Import by ISBN</option>
+                                <option value="/" selected>Cerca nella Libreria</option>
+                                <option value="view/importisbn.html" >Aggiungi Libro</option>
                             </select>
                         </div>
                     </div>
@@ -151,10 +151,7 @@
             <div class="level">
                 <div class="level-left">
                     <div class="level-item">
-                        <a id="insertBook" class="button is-success">Insert book</a>
-                    </div>
-                    <div class="level-item">
-                        <a id="deleteAll" class="button is-danger">Delete library</a>
+                        <a id="searchBook" class="button is-info">Cerca</a>
                     </div>
                 </div>
             </div>
@@ -196,8 +193,8 @@
 
                         </tr>
                         </tfoot>
-                        <tbody >
-                        <tr id="demo">
+                        <tbody id="showResultSearch">
+                        <tr>
 
                         </tr>
 

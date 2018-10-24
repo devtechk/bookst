@@ -62574,76 +62574,81 @@ var databaseFb = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database();
  *************************************************/
 
 var insertIt = document.getElementById('insertBook');
-insertIt.addEventListener('click', function () {
-  var titoloIdDb = document.getElementById('titoloId').value;
-  var sottotitoloIdDb = document.getElementById('sottotitoloId').value;
-  var autoreIdDb = document.getElementById('autoreId').value;
-  var codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
-  var editoreIdDb = document.getElementById('editoreId').value;
-  var collanaIdDb = document.getElementById('collanaId').value;
-  var annoIdDb = document.getElementById('annoId').value;
-  var fondoIdDb = document.getElementById('fondoId').value;
-  var materiaIdDb = document.getElementById('materiaId').value;
-  var argomentoIdDb = document.getElementById('argomentoId').value;
 
-  if (titoloIdDb == "") {
-    console.log(titoloIdDb + 'insert a value');
-    var modalOpen = document.querySelector('.modal');
-    var modalClose = document.querySelector('.modal-close');
-    event.stopPropagation();
-    modalOpen.classList.add('is-active');
-    modalClose.addEventListener('click', function () {
-      modalOpen.classList.remove('is-active');
-    });
-  } else {
-    databaseFb.ref('library/' + codiceIsbnIdDb).set({
-      titolo: titoloIdDb,
-      sottotitolo: sottotitoloIdDb,
-      autore: autoreIdDb,
-      isbn: codiceIsbnIdDb,
-      editore: editoreIdDb,
-      collana: collanaIdDb,
-      anno: annoIdDb,
-      fondo: fondoIdDb,
-      materia: materiaIdDb,
-      argomento: argomentoIdDb
-    }, function (error) {
-      if (error) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Il libro non può essere salvato.", "error", error);
-      } else {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Libro inserito correttamente.", "", "success");
-        document.getElementById('inputCode').value = '';
-        document.getElementById('titoloId').value = '';
-        document.getElementById('sottotitoloId').value = '';
-        document.getElementById('autoreId').value = '';
-        document.getElementById('codiceIsbnId').value = '';
-        document.getElementById('editoreId').value = '';
-        document.getElementById('collanaId').value = '';
-        document.getElementById('annoId').value = '';
-        document.getElementById('fondoId').value = '';
-        document.getElementById('materiaId').value = '';
-        document.getElementById('argomentoId').value = '';
-      }
-    });
-  }
-});
+if (insertIt) {
+  insertIt.addEventListener('click', function () {
+    var titoloIdDb = document.getElementById('titoloId').value;
+    var sottotitoloIdDb = document.getElementById('sottotitoloId').value;
+    var autoreIdDb = document.getElementById('autoreId').value;
+    var codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
+    var editoreIdDb = document.getElementById('editoreId').value;
+    var collanaIdDb = document.getElementById('collanaId').value;
+    var annoIdDb = document.getElementById('annoId').value;
+    var fondoIdDb = document.getElementById('fondoId').value;
+    var materiaIdDb = document.getElementById('materiaId').value;
+    var argomentoIdDb = document.getElementById('argomentoId').value;
+
+    if (titoloIdDb == "") {
+      console.log(titoloIdDb + 'insert a value');
+      var modalOpen = document.querySelector('.modal');
+      var modalClose = document.querySelector('.modal-close');
+      event.stopPropagation();
+      modalOpen.classList.add('is-active');
+      modalClose.addEventListener('click', function () {
+        modalOpen.classList.remove('is-active');
+      });
+    } else {
+      databaseFb.ref('library/' + codiceIsbnIdDb).set({
+        titolo: titoloIdDb,
+        sottotitolo: sottotitoloIdDb,
+        autore: autoreIdDb,
+        isbn: codiceIsbnIdDb,
+        editore: editoreIdDb,
+        collana: collanaIdDb,
+        anno: annoIdDb,
+        fondo: fondoIdDb,
+        materia: materiaIdDb,
+        argomento: argomentoIdDb
+      }, function (error) {
+        if (error) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Il libro non può essere salvato.", "error", error);
+        } else {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Libro inserito correttamente.", "", "success");
+          document.getElementById('inputCode').value = '';
+          document.getElementById('titoloId').value = '';
+          document.getElementById('sottotitoloId').value = '';
+          document.getElementById('autoreId').value = '';
+          document.getElementById('codiceIsbnId').value = '';
+          document.getElementById('editoreId').value = '';
+          document.getElementById('collanaId').value = '';
+          document.getElementById('annoId').value = '';
+          document.getElementById('fondoId').value = '';
+          document.getElementById('materiaId').value = '';
+          document.getElementById('argomentoId').value = '';
+        }
+      });
+    }
+  });
+}
 /**************************************************
  * Create Table firedata
  *************************************************/
 
-var dbRefObj = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database().ref().child('library');
+
+var dbRefObj = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database().ref().child('library'); //Total Books stored.
+
+if (document.getElementById("totalBooksId")) {
+  dbRefObj.on('value', function (snapshot) {
+    var count = 0;
+    snapshot.forEach(function () {
+      count++;
+    });
+    document.getElementById("totalBooksId").innerHTML = 'Totale libri: ' + count;
+  });
+}
+
 dbRefObj.on('child_added', function (snap) {
-  //Total Books stored.
-  var totalBooks = 1;
-  var i;
-
-  for (i in snap) {
-    if (snap.hasOwnProperty(i)) {
-      totalBooks++;
-    }
-  }
-
-  document.getElementById("totalBooksId").innerHTML = "Totale libri" + totalBooks;
+  //Total Books stored END.
   var titoloResult = snap.child('titolo').val();
   var sottotitoloResult = snap.child('sottotitolo').val();
   var materiaResult = snap.child('materia').val();
@@ -62654,35 +62659,84 @@ dbRefObj.on('child_added', function (snap) {
   var autoreResult = snap.child('autore').val();
   var argomentoResult = snap.child('argomento').val();
   var annoResult = snap.child('anno').val();
-  $('table').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+  $('#showLibrary').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
 });
 /**************************************************
  * RESET Library
  *************************************************/
 
-document.getElementById('deleteAll').addEventListener('click', function () {
-  sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()({
-    title: 'Are you sure?',
-    text: 'You will not be able to recover this library!',
-    type: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, keep it'
-  }).then(function (result) {
-    console.log(result.value);
+if (document.getElementById('deleteAll')) {
+  document.getElementById('deleteAll').addEventListener('click', function () {
+    sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this library!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then(function (result) {
+      console.log(result.value);
 
-    if (result.value) {
-      databaseFb.ref('library/').remove();
-      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()('Deleted!', 'Your imaginary file has been deleted.', 'success'); // For more information about handling dismissals please visit
-      // https://sweetalert2.github.io/#handling-dismissals
-    } else if (result.dismiss === sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.DismissReason.cancel) {
-      sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()('Azione revocata', 'Libreria intatta', 'error');
-    }
+      if (result.value) {
+        databaseFb.ref('library/').remove();
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()('Deleted!', 'Your imaginary file has been deleted.', 'success'); // For more information about handling dismissals please visit
+        // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.DismissReason.cancel) {
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()('Azione revocata', 'Libreria intatta', 'error');
+      }
+    });
   });
-});
+}
+/**************************************************
+ * SEARCH Firebase
+ *************************************************/
+
+
+function searchInLibrary(field, toSearch) {
+  dbRefObj.orderByChild(field).equalTo(toSearch).on("value", function (snapshot) {
+    console.log(snapshot.val());
+    snapshot.forEach(function (data) {
+      console.log(data.key);
+    });
+  });
+}
+
+;
+
+if (document.getElementById('searchBook')) {
+  var titoloIdDb = document.getElementById('titoloId').value;
+  var sottotitoloIdDb = document.getElementById('sottotitoloId').value;
+  var autoreIdDb = document.getElementById('autoreId').value;
+  var codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
+  var editoreIdDb = document.getElementById('editoreId').value;
+  var collanaIdDb = document.getElementById('collanaId').value;
+  var annoIdDb = document.getElementById('annoId').value;
+  var fondoIdDb = document.getElementById('fondoId').value;
+  var materiaIdDb = document.getElementById('materiaId').value;
+  var argomentoIdDb = document.getElementById('argomentoId').value;
+  document.getElementById('searchBook').addEventListener('click', function () {
+    var autoreIdDb = document.getElementById('autoreId').value;
+    dbRefObj.orderByChild('autore').equalTo(autoreIdDb).on("child_added", function (snapshot) {
+      console.log('snap', snapshot.val()); //Recupero dati da DataSnapshot
+
+      var titoloResult = snapshot.child('titolo').val();
+      var sottotitoloResult = snapshot.child('sottotitolo').val();
+      var materiaResult = snapshot.child('materia').val();
+      var isbnResult = snapshot.child('isbn').val();
+      var fondoResult = snapshot.child('fondo').val();
+      var editoreResult = snapshot.child('editore').val();
+      var collanaResult = snapshot.child('collana').val();
+      var autoreResult = snapshot.child('autore').val();
+      var argomentoResult = snapshot.child('argomento').val();
+      var annoResult = snapshot.child('anno').val();
+      $('#showResultSearch').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+    });
+  });
+}
 /**************************************************
  * BULMA animations
  *************************************************/
+
 
 document.getElementById('selectPage').addEventListener('change', function () {
   var url = this.value; // get selected value

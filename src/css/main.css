@@ -6754,3 +6754,7 @@ label.panel-block {
 @media (min-width: 768px) {
   .left-justify {
     justify-content: start; } }
+
+@media (max-width: 1080px) {
+  #table {
+    overflow-x: scroll; } }

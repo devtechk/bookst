@@ -11,3 +11,9 @@
     justify-content: start;
   }
 }
+
+#table{
+  @media (max-width: 1080px) {
+    overflow-x: scroll;
+  }
+}
