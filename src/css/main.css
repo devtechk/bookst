@@ -6751,10 +6751,17 @@ label.panel-block {
   margin: 0 auto;
   overflow: hidden; }
 
-@media (min-width: 768px) {
+@media (min-width: 1080px) {
   .left-justify {
     justify-content: start; } }
 
 @media (max-width: 1080px) {
-  #table {
+  .table__wrapper {
     overflow-x: scroll; } }
+
+@media (max-width: 768px) {
+  label.label {
+    display: none; } }
+
+.field {
+  padding-left: 15px; }

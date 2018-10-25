@@ -62704,20 +62704,19 @@ function searchInLibrary(field, toSearch) {
 ;
 
 if (document.getElementById('searchBook')) {
-  var titoloIdDb = document.getElementById('titoloId').value;
-  var sottotitoloIdDb = document.getElementById('sottotitoloId').value;
-  var autoreIdDb = document.getElementById('autoreId').value;
-  var codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
-  var editoreIdDb = document.getElementById('editoreId').value;
-  var collanaIdDb = document.getElementById('collanaId').value;
-  var annoIdDb = document.getElementById('annoId').value;
-  var fondoIdDb = document.getElementById('fondoId').value;
-  var materiaIdDb = document.getElementById('materiaId').value;
-  var argomentoIdDb = document.getElementById('argomentoId').value;
   document.getElementById('searchBook').addEventListener('click', function () {
-    var autoreIdDb = document.getElementById('autoreId').value;
-    dbRefObj.orderByChild('autore').equalTo(autoreIdDb).on("child_added", function (snapshot) {
-      console.log('snap', snapshot.val()); //Recupero dati da DataSnapshot
+    document.getElementById("showResultSearch").innerHTML = "<tr></tr>";
+    var inputSearchText = document.getElementById('inputSearchText').value; //let filterBy = document.querySelector("input[name=orderBy]:checked").value;
+
+    var filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
+
+    function getValue() {
+      filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
+    }
+
+    document.getElementById("inputSearchText").placeholder = 'Cerca' + filteredBy;
+    dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function (snapshot) {
+      console.log('snapd', snapshot.val()); //Recupero dati da DataSnapshot
 
       var titoloResult = snapshot.child('titolo').val();
       var sottotitoloResult = snapshot.child('sottotitolo').val();
@@ -62730,6 +62729,12 @@ if (document.getElementById('searchBook')) {
       var argomentoResult = snapshot.child('argomento').val();
       var annoResult = snapshot.child('anno').val();
       $('#showResultSearch').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+    });
+    dbRefObj.on('value', function (snapshot) {
+      var count = 0;
+      snapshot.forEach(function () {
+        count++;
+      }); //document.getElementById("totalBooksFoundId").innerHTML = 'Totale libri trovati: ' + count;
     });
   });
 }

@@ -7,13 +7,25 @@
 }
 
 .left-justify {
-  @media (min-width: 768px) {
+  @media (min-width: 1080px) {
     justify-content: start;
   }
 }
 
-#table{
+.table__wrapper{
   @media (max-width: 1080px) {
     overflow-x: scroll;
   }
+}
+
+label{
+  &.label{
+    @media (max-width: 768px) {
+      display: none;
+
+    }
+  }
+}
+.field {
+  padding-left: 15px;
 }

@@ -230,21 +230,21 @@ function searchInLibrary (field, toSearch) {
 
 
 if (document.getElementById('searchBook')) {
-    let titoloIdDb = document.getElementById('titoloId').value;
-    let sottotitoloIdDb = document.getElementById('sottotitoloId').value;
-    let autoreIdDb = document.getElementById('autoreId').value;
-    let codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
-    let editoreIdDb = document.getElementById('editoreId').value;
-    let collanaIdDb = document.getElementById('collanaId').value;
-    let annoIdDb = document.getElementById('annoId').value;
-    let fondoIdDb = document.getElementById('fondoId').value;
-    let materiaIdDb = document.getElementById('materiaId').value;
-    let argomentoIdDb = document.getElementById('argomentoId').value;
 
     document.getElementById('searchBook').addEventListener('click', function () {
-        let autoreIdDb = document.getElementById('autoreId').value;
+        document.getElementById("showResultSearch").innerHTML = "<tr></tr>";
 
-        dbRefObj.orderByChild('autore').equalTo(autoreIdDb).on("child_added", function(snapshot) {
+        let inputSearchText = document.getElementById('inputSearchText').value;
+        //let filterBy = document.querySelector("input[name=orderBy]:checked").value;
+        let filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
+        
+        document.getElementById("inputSearchText").placeholder = 'Cerca';
+
+
+        dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function(snapshot) {
+
+
+
             console.log('snapd', snapshot.val());
             //Recupero dati da DataSnapshot
             let titoloResult = snapshot.child('titolo').val();
@@ -263,6 +263,15 @@ if (document.getElementById('searchBook')) {
                 "</td><td>" + editoreResult + "</td><td>" + collanaResult +
                 "</td><td>" + annoResult + "</td><td>" + fondoResult +
                 "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+        });
+
+        dbRefObj.on('value', function (snapshot) {
+            let count = 0;
+            snapshot.forEach(function () {
+                count++;
+            });
+
+            //document.getElementById("totalBooksFoundId").innerHTML = 'Totale libri trovati: ' + count;
         });
     });
 }
