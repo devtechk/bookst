@@ -272,6 +272,7 @@ if (document.getElementById('searchBook')) {
             });
 
             //document.getElementById("totalBooksFoundId").innerHTML = 'Totale libri trovati: ' + count;
+            console.log('UPLOADED');
         });
     });
 }
