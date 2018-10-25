@@ -62709,12 +62709,7 @@ if (document.getElementById('searchBook')) {
     var inputSearchText = document.getElementById('inputSearchText').value; //let filterBy = document.querySelector("input[name=orderBy]:checked").value;
 
     var filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
-
-    function getValue() {
-      filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
-    }
-
-    document.getElementById("inputSearchText").placeholder = 'Cerca' + filteredBy;
+    document.getElementById("inputSearchText").placeholder = 'Cerca';
     dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function (snapshot) {
       console.log('snapd', snapshot.val()); //Recupero dati da DataSnapshot
 
@@ -62735,6 +62730,8 @@ if (document.getElementById('searchBook')) {
       snapshot.forEach(function () {
         count++;
       }); //document.getElementById("totalBooksFoundId").innerHTML = 'Totale libri trovati: ' + count;
+
+      console.log('red');
     });
   });
 }
