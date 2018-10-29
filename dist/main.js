@@ -62500,11 +62500,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 var getIsbnModule = __webpack_require__(/*! ./modules/getIsbnGoogle */ "./src/modules/getIsbnGoogle.js");
 
-var getIsbn = new getIsbnModule();
-
 var addBookModule = __webpack_require__(/*! ./modules/insertBook */ "./src/modules/insertBook.js");
-
-var insertBook = new addBookModule();
 
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
@@ -62522,6 +62518,7 @@ firebase__WEBPACK_IMPORTED_MODULE_0___default.a.initializeApp(config);
  *************************************************/
 
 if (document.getElementById("submit")) {
+  var getIsbn = new getIsbnModule();
   getIsbn;
 } else {}
 
@@ -62545,6 +62542,7 @@ var databaseFb = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database();
 var insertIt = document.getElementById('insertBookEl');
 
 if (insertIt) {
+  var insertBook = new addBookModule();
   insertBook;
 }
 /**************************************************

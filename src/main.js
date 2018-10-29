@@ -2,9 +2,7 @@ import firebase from "firebase";
 import Swal from 'sweetalert2';
 
 var getIsbnModule = require('./modules/getIsbnGoogle');
-var getIsbn = new getIsbnModule();
 var addBookModule = require('./modules/insertBook');
-var insertBook = new addBookModule();
 
 
 var $ = require("jquery");
@@ -23,6 +21,7 @@ firebase.initializeApp(config);
 
 
 if (document.getElementById("submit")) {
+    var getIsbn = new getIsbnModule();
     getIsbn;
 } else {
 }
@@ -50,7 +49,7 @@ const databaseFb = firebase.database();
 var insertIt = document.getElementById('insertBookEl');
 
 if (insertIt) {
-
+    var insertBook = new addBookModule();
         insertBook;
 }
 
