@@ -62498,9 +62498,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 
-var myModule = __webpack_require__(/*! ./modules/getIsbnGoogle */ "./src/modules/getIsbnGoogle.js");
+var getIsbnModule = __webpack_require__(/*! ./modules/getIsbnGoogle */ "./src/modules/getIsbnGoogle.js");
 
-var getIsbn = new myModule();
+var getIsbn = new getIsbnModule();
+
+var addBookModule = __webpack_require__(/*! ./modules/insertBook */ "./src/modules/insertBook.js");
+
+var insertBook = new addBookModule();
 
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
@@ -62518,7 +62522,7 @@ firebase__WEBPACK_IMPORTED_MODULE_0___default.a.initializeApp(config);
  *************************************************/
 
 if (document.getElementById("submit")) {
-  getIsbn();
+  getIsbn;
 } else {}
 
 if (document.getElementById("clear")) {
@@ -62538,62 +62542,10 @@ var databaseFb = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database();
  * INSERT to firebase
  *************************************************/
 
-var insertIt = document.getElementById('insertBook');
+var insertIt = document.getElementById('insertBookEl');
 
 if (insertIt) {
-  insertIt.addEventListener('click', function () {
-    var titoloIdDb = document.getElementById('titoloId').value;
-    var sottotitoloIdDb = document.getElementById('sottotitoloId').value;
-    var autoreIdDb = document.getElementById('autoreId').value;
-    var codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
-    var editoreIdDb = document.getElementById('editoreId').value;
-    var collanaIdDb = document.getElementById('collanaId').value;
-    var annoIdDb = document.getElementById('annoId').value;
-    var fondoIdDb = document.getElementById('fondoId').value;
-    var materiaIdDb = document.getElementById('materiaId').value;
-    var argomentoIdDb = document.getElementById('argomentoId').value;
-
-    if (titoloIdDb == "") {
-      console.log(titoloIdDb + 'insert a value');
-      var modalOpen = document.querySelector('.modal');
-      var modalClose = document.querySelector('.modal-close');
-      event.stopPropagation();
-      modalOpen.classList.add('is-active');
-      modalClose.addEventListener('click', function () {
-        modalOpen.classList.remove('is-active');
-      });
-    } else {
-      databaseFb.ref('library/' + codiceIsbnIdDb).set({
-        titolo: titoloIdDb,
-        sottotitolo: sottotitoloIdDb,
-        autore: autoreIdDb,
-        isbn: codiceIsbnIdDb,
-        editore: editoreIdDb,
-        collana: collanaIdDb,
-        anno: annoIdDb,
-        fondo: fondoIdDb,
-        materia: materiaIdDb,
-        argomento: argomentoIdDb
-      }, function (error) {
-        if (error) {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Il libro non può essere salvato.", "error", error);
-        } else {
-          sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Libro inserito correttamente.", "", "success");
-          document.getElementById('inputCode').value = '';
-          document.getElementById('titoloId').value = '';
-          document.getElementById('sottotitoloId').value = '';
-          document.getElementById('autoreId').value = '';
-          document.getElementById('codiceIsbnId').value = '';
-          document.getElementById('editoreId').value = '';
-          document.getElementById('collanaId').value = '';
-          document.getElementById('annoId').value = '';
-          document.getElementById('fondoId').value = '';
-          document.getElementById('materiaId').value = '';
-          document.getElementById('argomentoId').value = '';
-        }
-      });
-    }
-  });
+  insertBook;
 }
 /**************************************************
  * Create Table firedata
@@ -62782,10 +62734,76 @@ function getIsbn() {
     xhttp.open("GET", url);
     xhttp.send();
   });
-  console.log("BLEEEEE");
 }
 
 module.exports = getIsbn;
+
+/***/ }),
+
+/***/ "./src/modules/insertBook.js":
+/*!***********************************!*\
+  !*** ./src/modules/insertBook.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function insertBook() {
+  document.getElementById('insertBookEl').addEventListener('click', function () {
+    var titoloIdDb = document.getElementById('titoloId').value;
+    var sottotitoloIdDb = document.getElementById('sottotitoloId').value;
+    var autoreIdDb = document.getElementById('autoreId').value;
+    var codiceIsbnIdDb = document.getElementById('codiceIsbnId').value;
+    var editoreIdDb = document.getElementById('editoreId').value;
+    var collanaIdDb = document.getElementById('collanaId').value;
+    var annoIdDb = document.getElementById('annoId').value;
+    var fondoIdDb = document.getElementById('fondoId').value;
+    var materiaIdDb = document.getElementById('materiaId').value;
+    var argomentoIdDb = document.getElementById('argomentoId').value;
+
+    if (titoloIdDb == "") {
+      console.log(titoloIdDb + 'insert a value');
+      var modalOpen = document.querySelector('.modal');
+      var modalClose = document.querySelector('.modal-close');
+      event.stopPropagation();
+      modalOpen.classList.add('is-active');
+      modalClose.addEventListener('click', function () {
+        modalOpen.classList.remove('is-active');
+      });
+    } else {
+      databaseFb.ref('library/' + codiceIsbnIdDb).set({
+        titolo: titoloIdDb,
+        sottotitolo: sottotitoloIdDb,
+        autore: autoreIdDb,
+        isbn: codiceIsbnIdDb,
+        editore: editoreIdDb,
+        collana: collanaIdDb,
+        anno: annoIdDb,
+        fondo: fondoIdDb,
+        materia: materiaIdDb,
+        argomento: argomentoIdDb
+      }, function (error) {
+        if (error) {
+          Swal("Il libro non può essere salvato.", "error", error);
+        } else {
+          Swal("Libro inserito correttamente.", "", "success");
+          document.getElementById('inputCode').value = '';
+          document.getElementById('titoloId').value = '';
+          document.getElementById('sottotitoloId').value = '';
+          document.getElementById('autoreId').value = '';
+          document.getElementById('codiceIsbnId').value = '';
+          document.getElementById('editoreId').value = '';
+          document.getElementById('collanaId').value = '';
+          document.getElementById('annoId').value = '';
+          document.getElementById('fondoId').value = '';
+          document.getElementById('materiaId').value = '';
+          document.getElementById('argomentoId').value = '';
+        }
+      });
+    }
+  });
+}
+
+module.exports = insertBook;
 
 /***/ })
 
