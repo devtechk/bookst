@@ -162,4 +162,4 @@ typings/
 
 #Ignore Modules
 
-/src/modules/config_auth.js
+src/modules/config_auth.js
