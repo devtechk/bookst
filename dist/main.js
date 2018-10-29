@@ -62493,8 +62493,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(firebase__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 
 
 
@@ -62519,7 +62517,7 @@ if (document.getElementById("submit")) {
 
 if (document.getElementById("clear")) {
   document.getElementById("clear").addEventListener("click", function (ev) {
-    document.getElementById("inputCode").value = '';
+    document.getElementById("inputCode").value = "";
     document.getElementById("demo").innerHTML = "";
     document.getElementById("submit").disabled = false;
   });
@@ -62534,7 +62532,7 @@ var databaseFb = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database();
  * INSERT to firebase
  *************************************************/
 
-var insertIt = document.getElementById('insertBookEl');
+var insertIt = document.getElementById("insertBookEl");
 
 if (insertIt) {
   var insertBook = new addBookModule();
@@ -62545,54 +62543,54 @@ if (insertIt) {
  *************************************************/
 
 
-var dbRefObj = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database().ref().child('library'); //Total Books stored.
+var dbRefObj = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database().ref().child("library"); //Total Books stored.
 
 if (document.getElementById("totalBooksId")) {
-  dbRefObj.on('value', function (snapshot) {
+  dbRefObj.on("value", function (snapshot) {
     var count = 0;
     snapshot.forEach(function () {
       count++;
     });
-    document.getElementById("totalBooksId").innerHTML = 'Totale libri: ' + count;
+    document.getElementById("totalBooksId").innerHTML = "Totale libri: " + count;
   });
 }
 
-dbRefObj.on('child_added', function (snap) {
+dbRefObj.on("child_added", function (snap) {
   //Total Books stored END.
-  var titoloResult = snap.child('titolo').val();
-  var sottotitoloResult = snap.child('sottotitolo').val();
-  var materiaResult = snap.child('materia').val();
-  var isbnResult = snap.child('isbn').val();
-  var fondoResult = snap.child('fondo').val();
-  var editoreResult = snap.child('editore').val();
-  var collanaResult = snap.child('collana').val();
-  var autoreResult = snap.child('autore').val();
-  var argomentoResult = snap.child('argomento').val();
-  var annoResult = snap.child('anno').val();
-  $('#showLibrary').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+  var titoloResult = snap.child("titolo").val();
+  var sottotitoloResult = snap.child("sottotitolo").val();
+  var materiaResult = snap.child("materia").val();
+  var isbnResult = snap.child("isbn").val();
+  var fondoResult = snap.child("fondo").val();
+  var editoreResult = snap.child("editore").val();
+  var collanaResult = snap.child("collana").val();
+  var autoreResult = snap.child("autore").val();
+  var argomentoResult = snap.child("argomento").val();
+  var annoResult = snap.child("anno").val();
+  $("#showLibrary").append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
 });
 /**************************************************
  * RESET Library
  *************************************************/
 
-if (document.getElementById('deleteAll')) {
-  document.getElementById('deleteAll').addEventListener('click', function () {
+if (document.getElementById("deleteAll")) {
+  document.getElementById("deleteAll").addEventListener("click", function () {
     sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this library!',
-      type: 'warning',
+      title: "Are you sure?",
+      text: "You will not be able to recover this library!",
+      type: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, keep it"
     }).then(function (result) {
       console.log(result.value);
 
       if (result.value) {
-        databaseFb.ref('library/').remove();
-        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()('Deleted!', 'Your imaginary file has been deleted.', 'success'); // For more information about handling dismissals please visit
+        databaseFb.ref("library/").remove();
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Deleted!", "Your imaginary file has been deleted.", "success"); // For more information about handling dismissals please visit
         // https://sweetalert2.github.io/#handling-dismissals
       } else if (result.dismiss === sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a.DismissReason.cancel) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()('Azione revocata', 'Libreria intatta', 'error');
+        sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()("Azione revocata", "Libreria intatta", "error");
       }
     });
   });
@@ -62611,51 +62609,39 @@ function searchInLibrary(field, toSearch) {
   });
 }
 
-;
-
-if (document.getElementById('searchBook')) {
-  document.getElementById('searchBook').addEventListener('click', function () {
+if (document.getElementById("searchBook")) {
+  document.getElementById("searchBook").addEventListener("click", function () {
     document.getElementById("showResultSearch").innerHTML = "<tr></tr>";
-    var inputSearchText = document.getElementById('inputSearchText').value; //let filterBy = document.querySelector("input[name=orderBy]:checked").value;
+    var inputSearchText = document.getElementById("inputSearchText").value; //let filterBy = document.querySelector("input[name=orderBy]:checked").value;
 
     var filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
-    document.getElementById("inputSearchText").placeholder = 'Cerca';
+    document.getElementById("inputSearchText").placeholder = "Cerca";
+    var resultBook = [];
     dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function (snapshot) {
-      var hh = 0;
-      var arrh = [];
-      console.log('SNAPSHOT', _typeof(snapshot));
-      dbRefObj.on('value', function (snapshot) {
-        var countk = 0;
-        Object.keys(snapshot).map(function (objectKey, index) {
-          var value = snapshot[objectKey];
-          hh = index;
-          countk++;
-        });
-        arrh.push(countk);
-        console.log("countk", _typeof(arrh));
-      }); //Recupero dati da DataSnapshot
+      var booksFound = resultBook.push(snapshot.val());
+      document.getElementById("totalBooksFoundId").innerHTML = "Libri trovati: " + booksFound; //Recupero dati da DataSnapshot
 
-      var titoloResult = snapshot.child('titolo').val();
-      var sottotitoloResult = snapshot.child('sottotitolo').val();
-      var materiaResult = snapshot.child('materia').val();
-      var isbnResult = snapshot.child('isbn').val();
-      var fondoResult = snapshot.child('fondo').val();
-      var editoreResult = snapshot.child('editore').val();
-      var collanaResult = snapshot.child('collana').val();
-      var autoreResult = snapshot.child('autore').val();
-      var argomentoResult = snapshot.child('argomento').val();
-      var annoResult = snapshot.child('anno').val();
-      $('#showResultSearch').append("<tr id=''><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td><td><a id='editBook' class='button is-info'>Modifica</a></td></tr>"); //document.getElementById('editBook').addEventListener('click', function () {
+      var titoloResult = snapshot.child("titolo").val();
+      var sottotitoloResult = snapshot.child("sottotitolo").val();
+      var materiaResult = snapshot.child("materia").val();
+      var isbnResult = snapshot.child("isbn").val();
+      var fondoResult = snapshot.child("fondo").val();
+      var editoreResult = snapshot.child("editore").val();
+      var collanaResult = snapshot.child("collana").val();
+      var autoreResult = snapshot.child("autore").val();
+      var argomentoResult = snapshot.child("argomento").val();
+      var annoResult = snapshot.child("anno").val();
+      $("#showResultSearch").append("<tr id=''><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td><td><a id='editBook' class='button is-info'>Modifica</a></td></tr>"); //document.getElementById('editBook').addEventListener('click', function () {
       //  console.log(titoloResult);
       //});
     });
-    dbRefObj.on('value', function (snapshot) {
+    dbRefObj.on("value", function (snapshot) {
       var count = 0;
       snapshot.forEach(function () {
         count++;
       }); //document.getElementById("totalBooksFoundId").innerHTML = 'Totale libri trovati: ' + count;
 
-      console.log('UPLOADED');
+      console.log("UPLOADED");
     });
   });
 }
@@ -62664,7 +62650,7 @@ if (document.getElementById('searchBook')) {
  *************************************************/
 
 
-document.getElementById('selectPage').addEventListener('change', function () {
+document.getElementById("selectPage").addEventListener("change", function () {
   var url = this.value; // get selected value
 
   if (url) {
