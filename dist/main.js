@@ -62493,8 +62493,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(firebase__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
+
+
+var myModule = __webpack_require__(/*! ./modules/getIsbnGoogle */ "./src/modules/getIsbnGoogle.js");
+
+var getIsbn = new myModule();
 
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
@@ -62512,48 +62518,7 @@ firebase__WEBPACK_IMPORTED_MODULE_0___default.a.initializeApp(config);
  *************************************************/
 
 if (document.getElementById("submit")) {
-  document.getElementById("submit").addEventListener("click", function (e) {
-    e.preventDefault();
-    var isbnValue = document.getElementById("inputCode").value;
-    var url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbnValue; //Ajax call
-
-    var xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var elx = JSON.parse(this.responseText);
-        console.log('hello', elx.items[0].volumeInfo);
-
-        for (var i = 0; i < elx.items[0].volumeInfo.authors.length; i++) {
-          var authors = elx.items[0].volumeInfo.authors[i];
-        }
-
-        if (elx.items[0].volumeInfo.hasOwnProperty('categories')) {
-          for (var i = 0; i < elx.items[0].volumeInfo.categories.length; i++) {
-            var argument = elx.items[0].volumeInfo.categories[i];
-          }
-        }
-
-        document.getElementById('titoloId').value = elx.items[0].volumeInfo.title;
-        console.log(document.getElementById('titoloId').value + "AJAX");
-        document.getElementById('sottotitoloId').value = "";
-        document.getElementById('autoreId').value = authors;
-        /*                for (var i = 0; i < elx.items[0].volumeInfo.industryIdentifiers.length; i++) {
-                            var isbnCodes = elx.items[0].volumeInfo.industryIdentifiers[i];
-                            console.log(isbnCodes);
-                            var isbnCodesHtml = document.getElementById("demo").innerHTML += "<td><br> <b>CODICE " + isbnCodes.type +"</b> </td>" + isbnCodes.identifier;
-                        }*/
-
-        document.getElementById('codiceIsbnId').value = elx.items[0].volumeInfo.industryIdentifiers[1].identifier;
-        document.getElementById('editoreId').value = elx.items[0].volumeInfo.publisher;
-        document.getElementById('annoId').value = elx.items[0].volumeInfo.publishedDate;
-        document.getElementById("argomentoId").value = argument;
-      }
-    };
-
-    xhttp.open("GET", url);
-    xhttp.send();
-  });
+  getIsbn();
 } else {}
 
 if (document.getElementById("clear")) {
@@ -62711,7 +62676,19 @@ if (document.getElementById('searchBook')) {
     var filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
     document.getElementById("inputSearchText").placeholder = 'Cerca';
     dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function (snapshot) {
-      console.log('snapd', snapshot.val()); //Recupero dati da DataSnapshot
+      var hh = 0;
+      var arrh = [];
+      console.log('SNAPSHOT', _typeof(snapshot));
+      dbRefObj.on('value', function (snapshot) {
+        var countk = 0;
+        Object.keys(snapshot).map(function (objectKey, index) {
+          var value = snapshot[objectKey];
+          hh = index;
+          countk++;
+        });
+        arrh.push(countk);
+        console.log("countk", _typeof(arrh));
+      }); //Recupero dati da DataSnapshot
 
       var titoloResult = snapshot.child('titolo').val();
       var sottotitoloResult = snapshot.child('sottotitolo').val();
@@ -62723,7 +62700,9 @@ if (document.getElementById('searchBook')) {
       var autoreResult = snapshot.child('autore').val();
       var argomentoResult = snapshot.child('argomento').val();
       var annoResult = snapshot.child('anno').val();
-      $('#showResultSearch').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+      $('#showResultSearch').append("<tr id=''><td>" + titoloResult + "</td><td>" + sottotitoloResult + "</td><td>" + autoreResult + "</td><td>" + isbnResult + "</td><td>" + editoreResult + "</td><td>" + collanaResult + "</td><td>" + annoResult + "</td><td>" + fondoResult + "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td><td><a id='editBook' class='button is-info'>Modifica</a></td></tr>"); //document.getElementById('editBook').addEventListener('click', function () {
+      //  console.log(titoloResult);
+      //});
     });
     dbRefObj.on('value', function (snapshot) {
       var count = 0;
@@ -62731,7 +62710,7 @@ if (document.getElementById('searchBook')) {
         count++;
       }); //document.getElementById("totalBooksFoundId").innerHTML = 'Totale libri trovati: ' + count;
 
-      console.log('red');
+      console.log('UPLOADED');
     });
   });
 }
@@ -62750,6 +62729,63 @@ document.getElementById('selectPage').addEventListener('change', function () {
 
   return false;
 });
+
+/***/ }),
+
+/***/ "./src/modules/getIsbnGoogle.js":
+/*!**************************************!*\
+  !*** ./src/modules/getIsbnGoogle.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function getIsbn() {
+  document.getElementById("submit").addEventListener("click", function (e) {
+    e.preventDefault();
+    var isbnValue = document.getElementById("inputCode").value;
+    var url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbnValue; //Ajax call
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        var elx = JSON.parse(this.responseText);
+        console.log('hello', elx.items[0].volumeInfo);
+
+        for (var i = 0; i < elx.items[0].volumeInfo.authors.length; i++) {
+          var authors = elx.items[0].volumeInfo.authors[i];
+        }
+
+        if (elx.items[0].volumeInfo.hasOwnProperty('categories')) {
+          for (var i = 0; i < elx.items[0].volumeInfo.categories.length; i++) {
+            var argument = elx.items[0].volumeInfo.categories[i];
+          }
+        }
+
+        document.getElementById('titoloId').value = elx.items[0].volumeInfo.title;
+        console.log(document.getElementById('titoloId').value + "AJAX");
+        document.getElementById('sottotitoloId').value = "";
+        document.getElementById('autoreId').value = authors;
+        /*                for (var i = 0; i < elx.items[0].volumeInfo.industryIdentifiers.length; i++) {
+                            var isbnCodes = elx.items[0].volumeInfo.industryIdentifiers[i];
+                            console.log(isbnCodes);
+                            var isbnCodesHtml = document.getElementById("demo").innerHTML += "<td><br> <b>CODICE " + isbnCodes.type +"</b> </td>" + isbnCodes.identifier;
+                        }*/
+
+        document.getElementById('codiceIsbnId').value = elx.items[0].volumeInfo.industryIdentifiers[1].identifier;
+        document.getElementById('editoreId').value = elx.items[0].volumeInfo.publisher;
+        document.getElementById('annoId').value = elx.items[0].volumeInfo.publishedDate;
+        document.getElementById("argomentoId").value = argument;
+      }
+    };
+
+    xhttp.open("GET", url);
+    xhttp.send();
+  });
+  console.log("BLEEEEE");
+}
+
+module.exports = getIsbn;
 
 /***/ })
 

@@ -1,5 +1,10 @@
 import firebase from "firebase";
 import Swal from 'sweetalert2';
+
+var myModule = require('./modules/getIsbnGoogle')
+var getIsbn = new myModule();
+
+
 var $ = require("jquery");
 var config = {
     apiKey: "AIzaSyBI3M7_7KJUmABvSccQN1U1A6cKyiKfvnA",
@@ -15,54 +20,12 @@ firebase.initializeApp(config);
  *************************************************/
 
 
-if(document.getElementById("submit")){
-
-    document.getElementById("submit").addEventListener("click", function (e) {
-        e.preventDefault();
-        var isbnValue = document.getElementById("inputCode").value;
-        var url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbnValue ;
-
-        //Ajax call
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-
-            if (this.readyState == 4 && this.status == 200) {
-                var elx = JSON.parse(this.responseText);
-                console.log('hello', elx.items[0].volumeInfo );
-
-                for (var i = 0; i < elx.items[0].volumeInfo.authors.length; i++) {
-                    var authors = elx.items[0].volumeInfo.authors[i];
-                }
-                if (elx.items[0].volumeInfo.hasOwnProperty('categories')) {
-                    for (var i = 0; i < elx.items[0].volumeInfo.categories.length; i++) {
-                        var argument = elx.items[0].volumeInfo.categories[i];
-                    }
-                }
-
-                document.getElementById('titoloId').value = elx.items[0].volumeInfo.title;
-                console.log(document.getElementById('titoloId').value + "AJAX");
-                document.getElementById('sottotitoloId').value = "";
-
-                document.getElementById('autoreId').value = authors;
-/*                for (var i = 0; i < elx.items[0].volumeInfo.industryIdentifiers.length; i++) {
-                    var isbnCodes = elx.items[0].volumeInfo.industryIdentifiers[i];
-                    console.log(isbnCodes);
-                    var isbnCodesHtml = document.getElementById("demo").innerHTML += "<td><br> <b>CODICE " + isbnCodes.type +"</b> </td>" + isbnCodes.identifier;
-                }*/
-                document.getElementById('codiceIsbnId').value = elx.items[0].volumeInfo.industryIdentifiers[1].identifier;
-                document.getElementById('editoreId').value = elx.items[0].volumeInfo.publisher;
-                document.getElementById('annoId').value =  elx.items[0].volumeInfo.publishedDate;
-                document.getElementById("argomentoId").value = argument ;
-
-            }
-        };
-        xhttp.open("GET", url);
-        xhttp.send();
-    });
+if (document.getElementById("submit")) {
+    getIsbn();
 } else {
 }
 
-if(document.getElementById("clear")) {
+if (document.getElementById("clear")) {
     document.getElementById("clear").addEventListener("click", function (ev) {
         document.getElementById("inputCode").value = '';
         document.getElementById("demo").innerHTML = "";
@@ -97,7 +60,7 @@ if (insertIt) {
         let materiaIdDb = document.getElementById('materiaId').value;
         let argomentoIdDb = document.getElementById('argomentoId').value;
 
-        if(titoloIdDb == ""){
+        if (titoloIdDb == "") {
             console.log(titoloIdDb + 'insert a value');
             var modalOpen = document.querySelector('.modal');
             var modalClose = document.querySelector('.modal-close');
@@ -146,6 +109,7 @@ if (insertIt) {
 /**************************************************
  * Create Table firedata
  *************************************************/
+
 const dbRefObj = firebase.database().ref().child('library');
 //Total Books stored.
 if (document.getElementById("totalBooksId")) {
@@ -180,12 +144,11 @@ dbRefObj.on('child_added', snap => {
 
 });
 
-
 /**************************************************
  * RESET Library
  *************************************************/
 
-if(document.getElementById('deleteAll')) {
+if (document.getElementById('deleteAll')) {
     document.getElementById('deleteAll').addEventListener('click', function () {
         Swal({
             title: 'Are you sure?',
@@ -215,14 +178,15 @@ if(document.getElementById('deleteAll')) {
         })
     });
 }
+
 /**************************************************
  * SEARCH Firebase
  *************************************************/
 
-function searchInLibrary (field, toSearch) {
-    dbRefObj.orderByChild(field).equalTo(toSearch).on("value", function(snapshot) {
+function searchInLibrary(field, toSearch) {
+    dbRefObj.orderByChild(field).equalTo(toSearch).on("value", function (snapshot) {
         console.log(snapshot.val());
-        snapshot.forEach(function(data) {
+        snapshot.forEach(function (data) {
             console.log(data.key);
         });
     });
@@ -237,15 +201,30 @@ if (document.getElementById('searchBook')) {
         let inputSearchText = document.getElementById('inputSearchText').value;
         //let filterBy = document.querySelector("input[name=orderBy]:checked").value;
         let filteredBy = document.getElementById("selectFilter").options[document.getElementById("selectFilter").selectedIndex].value;
-        
+
         document.getElementById("inputSearchText").placeholder = 'Cerca';
 
 
-        dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function(snapshot) {
+        dbRefObj.orderByChild(filteredBy).equalTo(inputSearchText).on("child_added", function (snapshot) {
 
 
+            let hh = 0;
+            let arrh = [];
+            console.log('SNAPSHOT', typeof snapshot);
 
-            console.log('snapd', snapshot.val());
+            dbRefObj.on('value', function (snapshot) {
+                let countk = 0;
+                Object.keys(snapshot).map(function(objectKey, index) {
+                    var value = snapshot[objectKey];
+                    hh = index;
+                    countk++;
+
+                });
+                arrh.push(countk)
+                console.log("countk", typeof arrh);
+
+            });
+
             //Recupero dati da DataSnapshot
             let titoloResult = snapshot.child('titolo').val();
             let sottotitoloResult = snapshot.child('sottotitolo').val();
@@ -258,11 +237,18 @@ if (document.getElementById('searchBook')) {
             let argomentoResult = snapshot.child('argomento').val();
             let annoResult = snapshot.child('anno').val();
 
-            $('#showResultSearch').append("<tr><td>" + titoloResult + "</td><td>" + sottotitoloResult +
-                "</td><td>" + autoreResult + "</td><td>" + isbnResult +
-                "</td><td>" + editoreResult + "</td><td>" + collanaResult +
-                "</td><td>" + annoResult + "</td><td>" + fondoResult +
-                "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td></tr>");
+
+
+                    $('#showResultSearch').append("<tr id=''><td>" + titoloResult + "</td><td>" + sottotitoloResult +
+                        "</td><td>" + autoreResult + "</td><td>" + isbnResult +
+                        "</td><td>" + editoreResult + "</td><td>" + collanaResult +
+                        "</td><td>" + annoResult + "</td><td>" + fondoResult +
+                        "</td><td>" + materiaResult + "</td><td>" + argomentoResult + "</td><td><a id='editBook' class='button is-info'>Modifica</a></td></tr>");
+
+
+            //document.getElementById('editBook').addEventListener('click', function () {
+              //  console.log(titoloResult);
+            //});
         });
 
         dbRefObj.on('value', function (snapshot) {
