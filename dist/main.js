@@ -62504,15 +62504,10 @@ var addBookModule = __webpack_require__(/*! ./modules/insertBook */ "./src/modul
 
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
-var config = {
-  apiKey: "AIzaSyBI3M7_7KJUmABvSccQN1U1A6cKyiKfvnA",
-  authDomain: "bookst-cea15.firebaseapp.com",
-  databaseURL: "https://bookst-cea15.firebaseio.com",
-  projectId: "bookst-cea15",
-  storageBucket: "bookst-cea15.appspot.com",
-  messagingSenderId: "390972415499"
-};
-firebase__WEBPACK_IMPORTED_MODULE_0___default.a.initializeApp(config);
+var configModule = __webpack_require__(/*! ./modules/config_auth */ "./src/modules/config_auth.js");
+
+var configAuth = configModule;
+firebase__WEBPACK_IMPORTED_MODULE_0___default.a.initializeApp(configAuth);
 /**************************************************
  * GET from ISBN
  *************************************************/
@@ -62679,6 +62674,25 @@ document.getElementById('selectPage').addEventListener('change', function () {
 
   return false;
 });
+
+/***/ }),
+
+/***/ "./src/modules/config_auth.js":
+/*!************************************!*\
+  !*** ./src/modules/config_auth.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var configAuth = {
+  apiKey: "AIzaSyBI3M7_7KJUmABvSccQN1U1A6cKyiKfvnA",
+  authDomain: "bookst-cea15.firebaseapp.com",
+  databaseURL: "https://bookst-cea15.firebaseio.com",
+  projectId: "bookst-cea15",
+  storageBucket: "bookst-cea15.appspot.com",
+  messagingSenderId: "390972415499"
+};
+module.exports = configAuth;
 
 /***/ }),
 
