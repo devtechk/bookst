@@ -62535,7 +62535,7 @@ var databaseFb = firebase__WEBPACK_IMPORTED_MODULE_0___default.a.database();
 var insertIt = document.getElementById("insertBookEl");
 
 if (insertIt) {
-  var insertBook = new addBookModule();
+  var insertBook = addBookModule(databaseFb, sweetalert2__WEBPACK_IMPORTED_MODULE_1___default.a);
   insertBook;
 }
 /**************************************************
@@ -62745,7 +62745,7 @@ module.exports = getIsbn;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function insertBook() {
+function insertBook(databaseFb, Swal) {
   document.getElementById('insertBookEl').addEventListener('click', function () {
     var titoloIdDb = document.getElementById('titoloId').value;
     var sottotitoloIdDb = document.getElementById('sottotitoloId').value;

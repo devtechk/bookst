@@ -1,4 +1,4 @@
-function insertBook() {
+function insertBook(databaseFb, Swal) {
     document.getElementById('insertBookEl').addEventListener('click', function () {
         let titoloIdDb = document.getElementById('titoloId').value;
         let sottotitoloIdDb = document.getElementById('sottotitoloId').value;

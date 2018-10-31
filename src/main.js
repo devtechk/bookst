@@ -44,7 +44,7 @@ const databaseFb = firebase.database();
 var insertIt = document.getElementById("insertBookEl");
 
 if (insertIt) {
-	var insertBook = new addBookModule();
+	var insertBook = addBookModule(databaseFb, Swal);
 	insertBook;
 }
 
